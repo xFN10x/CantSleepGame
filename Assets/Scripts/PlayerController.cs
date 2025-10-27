@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         float x = Camera.transform.localEulerAngles.x;
         if (x > 180)
             x -= 360;
-        x = Mathf.Clamp(x, -50, 46);
+        x = Mathf.Clamp(x, -60, 70);
         Camera.transform.localEulerAngles = new Vector3(x, 0, 0);
 
         //move player

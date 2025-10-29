@@ -1,11 +1,19 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public Camera Camera;
+
+    public TextMeshProUGUI InteractText;
+    public RawImage CrossHair;
+    public Texture NormalImage;
+    public Texture InteractImage;
+
 
     private PlayerInput input;
     private Rigidbody rigid;
@@ -37,6 +45,28 @@ public class PlayerController : MonoBehaviour
         Camera.transform.localEulerAngles = new Vector3(x, 0, 0);
 
         //move player
-        rigid.linearVelocity = 400 * Time.deltaTime * (transform.right * moveRead.x + transform.forward * moveRead.y).normalized + new Vector3(0, rigid.linearVelocity.y, 0);
+        rigid.linearVelocity = 4 * (transform.right * moveRead.x + transform.forward * moveRead.y).normalized + new Vector3(0, rigid.linearVelocity.y, 0);
+
+        //Debug.DrawLine(Camera.transform.position, Camera.transform.TransformDirection(Vector3.forward) * 10f);
+        if (Physics.Raycast(Camera.transform.position, Camera.transform.TransformDirection(Vector3.forward), out RaycastHit hit, 10f))
+        {
+            print(hit.transform.gameObject.name);
+            if (hit.transform.gameObject.TryGetComponent<InteractableObject>(out InteractableObject otherController))
+            {
+                CrossHair.texture = InteractImage;
+                InteractText.text = otherController.InteractText;
+            }
+            else
+            {
+                CrossHair.texture = NormalImage;
+                InteractText.text = "";
+            }
+        }
+        else
+        {
+            CrossHair.texture = NormalImage;
+            InteractText.text = "";
+        }
+
     }
 }

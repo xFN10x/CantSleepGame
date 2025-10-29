@@ -74,7 +74,7 @@ Material:
     - _ReflectionStrenght: 0.05
     - _ReflectionStrength: 0.01
     - _RefractionStrenght: 1.15
-    - _Smoothness: 0.656
+    - _Smoothness: 1
     - _Strenght: 0.12
     - _Tiling: 303
     m_Colors:

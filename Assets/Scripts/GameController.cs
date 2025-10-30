@@ -70,10 +70,10 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(2);
         yield return FadePanel.DOFade(0f, 3f).WaitForCompletion();
         yield return new WaitForSeconds(1);
-        StartCoroutine(ShowText("You've woken up around 10 minutes ago, and you can't seem to get back to sleep."));
+        StartCoroutine(ShowText("You've heard a noise outside..."));
         yield return new WaitForSeconds(5);
-        StartCoroutine(ShowText("Since you can't sleep currently, you should get out of bed."));
-        yield return new WaitForSeconds(1);
+        StartCoroutine(ShowText("This one sounds different from the others..."));
+        yield return new WaitForSeconds(2);
         yield return CutsceneCamera.transform.DOMove(Player.Camera.transform.position, 2f).WaitForCompletion();
         Player.ControlsEnabled = true;
         Player.Camera.enabled = true;

@@ -54,11 +54,12 @@ public class GameController : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             yield return new WaitForEndOfFrame();
-            DialougeText.text = text.Substring(0, i);
+            DialougeText.text = text[..i];
         }
         yield return new WaitForSeconds(3);
-        for (float i = 1f; i < 0f; i -= 0.01f)
+        for (float i = 1f; i > 0f; i -= 0.01f)
         {
+            yield return new WaitForEndOfFrame();
             DialougeText.alpha = i;
         }
 
@@ -69,9 +70,10 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(2);
         yield return FadePanel.DOFade(0f, 3f).WaitForCompletion();
         yield return new WaitForSeconds(1);
-        StartCoroutine(ShowText("You've woken up around 10 minutes ago, and you cant seem to get back to sleep."));
+        StartCoroutine(ShowText("You've woken up around 10 minutes ago, and you can't seem to get back to sleep."));
         yield return new WaitForSeconds(5);
-        StartCoroutine(ShowText("Maybe try to get up, and use the washroom."));
+        StartCoroutine(ShowText("Since you can't sleep currently, you should get out of bed."));
+        yield return new WaitForSeconds(1);
         yield return CutsceneCamera.transform.DOMove(Player.Camera.transform.position, 2f).WaitForCompletion();
         Player.ControlsEnabled = true;
         Player.Camera.enabled = true;

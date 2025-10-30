@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigid;
     private InputAction cameraActions;
     private InputAction walkActions;
+
+    private InteractableObject currentInteractableAction = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,7 +28,14 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<PlayerInput>();
         cameraActions = input.actions.FindAction("Look");
         walkActions = input.actions.FindAction("Move");
+        input.actions.FindAction("Interact").performed += Interacted;
         rigid = GetComponent<Rigidbody>();
+    }
+
+    private void Interacted(InputAction.CallbackContext obj)
+    {
+        if (currentInteractableAction == null) return;
+        currentInteractableAction.DoAction();
     }
 
     // Update is called once per frame
@@ -57,21 +66,25 @@ public class PlayerController : MonoBehaviour
                 {
                     CrossHair.texture = InteractImage;
                     InteractText.text = otherController.InteractText;
+                    currentInteractableAction = otherController;
                 }
                 else
                 {
+                    currentInteractableAction = null;
                     CrossHair.texture = NormalImage;
                     InteractText.text = "";
                 }
             }
             else
             {
+                currentInteractableAction = null;
                 CrossHair.texture = NormalImage;
                 InteractText.text = "";
             }
         }
         else
         {
+            currentInteractableAction = null;
             CrossHair.texture = NormalImage;
             InteractText.text = "";
         }

@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
     public Texture InteractImage;
     public bool ControlsEnabled;
 
+    //public GameObject ViewModelChlid;
+
+    public GameObject Gun;
+
     private PlayerInput input;
     private Rigidbody rigid;
     private InputAction cameraActions;
@@ -24,6 +28,8 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Gun.transform.localPosition = new Vector3(0.633000016f, -0.407999992f, -1.02900004f);
+        Gun.transform.localEulerAngles = new Vector3(0, 270, 270);
         Cursor.lockState = CursorLockMode.Locked;
         input = GetComponent<PlayerInput>();
         cameraActions = input.actions.FindAction("Look");
@@ -41,6 +47,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Camera.main != Camera && Gun.activeInHierarchy)
+        {
+            Gun.SetActive(false);
+        }
+        else if (!Gun.activeInHierarchy && Camera.main == Camera)
+        {
+            Gun.SetActive(true);
+        }
+        //ViewModelChlid.transform.localEulerAngles = Camera.transform.localEulerAngles;
         if (ControlsEnabled)
         {
             Vector2 cameraRead = cameraActions.ReadValue<Vector2>() / 10;

@@ -1,4 +1,5 @@
 # ![THE NOISE](/Assets/Sprites/banner.png)
+
 A short horror game where you wake up to a sound in the middle of the night... but there is more to this sound then you might think...
 
 [Play on Itch](https://xfn10x.itch.io/the-noise)

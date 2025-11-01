@@ -36,6 +36,10 @@ public class GameController : MonoBehaviour
     public AudioSource OutdoorAmbientSource;
     public AudioSource MainSource;
 
+    public RawImage AngryHauntedBG;
+    public Texture AngryHauntedImage;
+    public AudioClip AngryHauntedJumpscare;
+
     public AudioSource Cutscene1Sound;
     public SpriteRenderer Cutscene1Sprite;
     public AudioSource ShotgunSound;
@@ -123,6 +127,11 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(10);
             StartCoroutine(ShowHauntedText("EXPERIMENT 101" + DateTime.UnixEpoch.Millisecond + " CONCLUDED: "));
             yield return new WaitForSeconds(10);
+            MainSource.PlayOneShot(AngryHauntedJumpscare);
+            AngryHauntedBG.enabled = true;
+            Haunted.texture = AngryHauntedImage;
+            Haunted.rectTransform.DOSizeDelta(new Vector2(5000, 5000), 1f).SetEase(Ease.Linear);
+            yield return new WaitForSeconds(AngryHauntedJumpscare.length);
 #if UNITY_EDITOR
             EditorApplication.ExitPlaymode();
 #else   
@@ -137,6 +146,7 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
+        AngryHauntedBG.enabled = false;
         MainCanvas.enabled = true;
         OtherCanvas.enabled = false;
         Haunted.enabled = false;
@@ -185,7 +195,7 @@ public class GameController : MonoBehaviour
             MainSource.PlayOneShot(HauntedTalkSound);
         }
         yield return new WaitForSeconds(3);
-        if (DialougeText.text.Equals("text"))
+        if (HauntedText.text.Equals("text"))
         {
             for (float i = 1f; i > 0f; i -= 0.01f)
             {

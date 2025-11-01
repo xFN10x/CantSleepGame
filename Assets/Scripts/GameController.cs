@@ -1,6 +1,8 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -30,7 +32,9 @@ public class GameController : MonoBehaviour
     public Canvas OtherCanvas;
     public RawImage Haunted;
     public TextMeshProUGUI HauntedText;
-    public AudioListener MainListener;
+    public AudioClip HauntedTalkSound;
+    public AudioSource OutdoorAmbientSource;
+    public AudioSource MainSource;
 
     public AudioSource Cutscene1Sound;
     public SpriteRenderer Cutscene1Sprite;
@@ -78,6 +82,7 @@ public class GameController : MonoBehaviour
         if (isPrepared)
         {
             yield return new WaitForSeconds(1.1f);
+            OutdoorAmbientSource.Stop();
             ShotgunSound.Play();
             yield return new WaitForSeconds(0.1f);
             FadePanel.color = Color.black;
@@ -85,6 +90,7 @@ public class GameController : MonoBehaviour
             Cutscene1Sound.Stop();
             yield return new WaitForSeconds(3);
             FadePanel.DOFade(0f, 4f);
+            OutdoorAmbientSource.Play();
             plr.Camera.DOFieldOfView(70, 1f);
             plr.ControlsEnabled = true;
             yield return new WaitForSeconds(1);
@@ -97,16 +103,31 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(1.1f);
             FadePanel.color = Color.black;
             Cutscene1Sprite.enabled = false;
+            MainCanvas.enabled = false;
             Cutscene1Sound.Stop();
-            MainListener.enabled = false;
+            OutdoorAmbientSource.Stop();
             yield return new WaitForSeconds(5);
             OtherCanvas.enabled = true;
-            MainCanvas.enabled = false;
             yield return new WaitForSeconds(3);
             Haunted.enabled = true;
             Haunted.color = new Color(0, 0, 0, 0);
             yield return Haunted.DOColor(Color.white, 3f).WaitForCompletion();
-
+            yield return new WaitForSeconds(3);
+            StartCoroutine(ShowHauntedText("SO,"));
+            yield return new WaitForSeconds(3);
+            StartCoroutine(ShowHauntedText("YOU WERE LET OFF EASY."));
+            yield return new WaitForSeconds(4);
+            StartCoroutine(ShowHauntedText("SADLY,"));
+            yield return new WaitForSeconds(4);
+            StartCoroutine(ShowHauntedText("THE EXPERIMENTS COULDN'T BE DONE."));
+            yield return new WaitForSeconds(10);
+            StartCoroutine(ShowHauntedText("EXPERIMENT 101" + DateTime.UnixEpoch.Millisecond + " CONCLUDED: "));
+            yield return new WaitForSeconds(10);
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#else   
+            Application.Quit();
+#endif
         }
     }
 
@@ -161,6 +182,7 @@ public class GameController : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             HauntedText.text = text[..i];
+            MainSource.PlayOneShot(HauntedTalkSound);
         }
         yield return new WaitForSeconds(3);
         if (DialougeText.text.Equals("text"))

@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour
 {
@@ -14,8 +15,9 @@ public class MenuHandler : MonoBehaviour
 #endif
     }
 
-    public void Start()
+    public void Play()
     {
         MainCanvas.enabled = false;
+        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
     }
 }

@@ -93,8 +93,8 @@ public class GameController : MonoBehaviour
             Cutscene1Sprite.enabled = false;
             Cutscene1Sound.Stop();
             yield return new WaitForSeconds(3);
-            FadePanel.DOFade(0f, 4f);
-            OutdoorAmbientSource.Play();
+            //FadePanel.DOFade(0f, 4f);
+            //OutdoorAmbientSource.Play();
             plr.Camera.DOFieldOfView(70, 1f);
             plr.ControlsEnabled = true;
             yield return new WaitForSeconds(1);

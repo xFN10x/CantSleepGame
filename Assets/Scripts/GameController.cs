@@ -98,9 +98,18 @@ public class GameController : MonoBehaviour
             plr.Camera.DOFieldOfView(70, 1f);
             plr.ControlsEnabled = true;
             yield return new WaitForSeconds(1);
+            StartCoroutine(ShowText("To be continued."));
+            yield return new WaitForSeconds(5);
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#else   
+            Application.Quit();
+#endif
+            /*
             StartCoroutine(ShowText("\"Fuck it, I need to leave.\""));
             yield return new WaitForSeconds(3);
-            StartCoroutine(ShowText("\"I don't think it's safe to get my car...\""));
+            StartCoroutine(ShowText("\"I don't think it's safe to get my car... but it's the only way out...\""));
+            yield return new WaitForSeconds(3);*/
         }
         else
         {
@@ -130,7 +139,7 @@ public class GameController : MonoBehaviour
             MainSource.PlayOneShot(AngryHauntedJumpscare);
             AngryHauntedBG.enabled = true;
             Haunted.texture = AngryHauntedImage;
-            Haunted.rectTransform.DOSizeDelta(new Vector2(5000, 5000), 1f).SetEase(Ease.Linear);
+            Haunted.rectTransform.DOSizeDelta(new Vector2(15000, 15000), 1f).SetEase(Ease.Linear);
             yield return new WaitForSeconds(AngryHauntedJumpscare.length);
 #if UNITY_EDITOR
             EditorApplication.ExitPlaymode();

@@ -107,11 +107,11 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(1.1f);
             FadePanel.color = Color.black;
             Cutscene1Sprite.enabled = false;
+            OtherCanvas.enabled = true;
             MainCanvas.enabled = false;
             Cutscene1Sound.Stop();
             OutdoorAmbientSource.Stop();
             yield return new WaitForSeconds(5);
-            OtherCanvas.enabled = true;
             yield return new WaitForSeconds(3);
             Haunted.enabled = true;
             Haunted.color = new Color(0, 0, 0, 0);
